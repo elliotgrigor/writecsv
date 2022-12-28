@@ -12,14 +12,14 @@ proc escapeHeaders(self: var CsvWriter) =
      Can be part of the `rows` sequence and still work ]#
   for i, header in self.headers:
     if header.contains(self.separator):
-      self.headers[i] = self.quote & header & self.quote
+      self.headers[i] = '\"' & header & '\"'
 
 proc escapeRow(self: CsvWriter, row: seq[string]): seq[string] =
   result = row
 
   for i, val in result:
     if val.contains(self.separator):
-      result[i] = self.quote & val & self.quote
+      result[i] = '\"' & val & '\"'
 
 proc getLineEnding(self: CsvWriter): string =
   case hostOS:
@@ -30,11 +30,10 @@ proc getLineEnding(self: CsvWriter): string =
     else:
       result = "\n"
 
-proc writeRows*(self: var CsvWriter, filePath: string,
-                separator: char = ',', quote: char = '\"') =
+proc writeRows*(self: var CsvWriter,
+                filePath: string, separator: char = ',') =
   #[ Generate the full file contents in a string, then dump to file ]#
   self.separator = separator
-  self.quote = quote
 
   var fileContent: string
 
