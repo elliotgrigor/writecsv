@@ -5,21 +5,24 @@ type
     headers*: seq[string]
     rows*: seq[seq[string]]
     separator: char
-    quote: char
+    quote: char = '\"'
+
+template quoteWrap(field: string): string =
+  self.quote & field & self.quote
 
 proc escapeHeaders(self: var CsvWriter) =
   #[ Headers don't need to be set.
      Can be part of the `rows` sequence and still work ]#
   for i, header in self.headers:
     if header.contains(self.separator):
-      self.headers[i] = '\"' & header & '\"'
+      self.headers[i] = quoteWrap(header)
 
 proc escapeRow(self: CsvWriter, row: seq[string]): seq[string] =
   result = row
 
   for i, val in result:
     if val.contains(self.separator):
-      result[i] = '\"' & val & '\"'
+      result[i] = quoteWrap(val)
 
 proc getLineEnding(self: CsvWriter): string =
   case hostOS:
