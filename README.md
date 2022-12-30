@@ -15,7 +15,7 @@ A quick & (very) dirty CSV writer for Nim designed to complement the standard li
 #     quote: char = '\"'
 
 import std/parsecsv
-import writecsv # assuming writecsv.nim is a sibling file
+import writecsv
 
 block:
   var
