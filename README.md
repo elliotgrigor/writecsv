@@ -12,7 +12,7 @@ A quick & (very) dirty CSV writer for Nim designed to complement the standard li
 #     headers*: seq[string]
 #     rows*: seq[seq[string]]
 #     separator: char
-#     quote: char
+#     quote: char = '\"'
 
 import std/parsecsv
 import writecsv # assuming writecsv.nim is a sibling file
@@ -31,34 +31,37 @@ block:
   while p.readRow():
     w.rows.add(p.row) # Append parsed row to `rows` property
 
-  # Optional: `separator` & `quote` args. Defaults to ',' & '\"', respectfully
-  w.writeRows("./output.csv", separator = '\t', quote = '\"')
+  w.writeRows("./output.tsv", separator = '\t') # Optional: `separator` arg. Defaults to ','
 ```
+
+## Changelog
+
+### 2022-12-28
+#### Removed
+
+- After some consideration, custom quote characters have been removed to meet the [RFC 4180](https://www.rfc-editor.org/rfc/rfc4180) guidelines.
 
 ## Limitations
 
-Must escape any string-identifying character for the quote argument. `\"` `\'`
+Custom quote characters are not supported. Quotation marks (`"`) only.
 
 ## Known Issues
 
-There's a scenario where, in the CSV input, if one or more separator characters exist in a value *and* it contains a quote character utilised by the CSV writer as part of the value, it will double the quote characters in the output.
+- Quotation marks cannot be used within values in the input data. (Planned support)
+- Newlines cannot be be used within values in the input data. (Planned support)
+- Using quotation marks as separators breaks everything. (Duh!)
 
-#### An example speaks a thousand words.
+## Todo
 
-```
-# input.csv (quotes as part of the value)
-id,name,quote
-1,'Smith, John','"Foobar"'
-2,'Doe, Jane','"Hello, World!"'
-3,'Bloggs, Joe','"Quick brown fox"'
-```
+### Features
 
-Parsing the above input using apostrophes `'` as quote characters and commas `,` as separators will result in the following CSV writer output (if writing using the same separator `,` and value character `"`).
+- [ ] Streaming output to file
+- [ ] Switch for wrapping all fields in quotation marks (think Python's `csv.QUOTE_ALL`)
+- [ ] Limit separators to comma (`,`), tab (`\t`) semi-colon (`;`) or pipe (`|`)
+- [ ] Error handling for quotation marks as separators
+- [ ] Error handling in general
 
-```
-# output.csv
-id,name,quote
-1,"Smith, John","Foobar"          <-- not equivalent
-2,"Doe, Jane",""Hello, World!""   <-- broken
-3,"Bloggs, Joe","Quick brown fox" <-- not equivalent
-```
+### RFC 4180 Compliance
+
+- [ ] Line breaks within values ([Section 2, def. 6](https://www.rfc-editor.org/rfc/rfc4180#section-2))
+- [ ] Quotation marks within values ([Section 2, def. 7](https://www.rfc-editor.org/rfc/rfc4180#section-2))
