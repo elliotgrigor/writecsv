@@ -5,7 +5,7 @@ type
     headers*: seq[string]
     rows*: seq[seq[string]]
     separator: char
-    quote: char = '\"'
+    quote: char
 
 template quoteWrap(field: string): string =
   self.quote & field & self.quote
@@ -37,6 +37,7 @@ proc writeRows*(self: var CsvWriter,
                 filePath: string, separator: char = ',') =
   #[ Generate the full file contents in a string, then dump to file ]#
   self.separator = separator
+  self.quote  = '\"'
 
   var fileContent: string
 
