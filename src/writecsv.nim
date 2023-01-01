@@ -1,9 +1,11 @@
 import std/strutils
 
 type
+  CsvRow = seq[string]
+
   CsvWriter* = object
-    headers*: seq[string]
-    rows*: seq[seq[string]]
+    headers*: CsvRow
+    rows*: seq[CsvRow]
     separator, quote: char
 
 template quoteWrap(field: string): string =
