@@ -59,7 +59,7 @@ Custom quote characters are not supported. Quotation marks (`"`) only.
 - [ ] Streaming output to file
 - [ ] Switch for wrapping all fields in quotation marks (think Python's `csv.QUOTE_ALL`)
 - [ ] Limit separators to comma (`,`), tab (`\t`), semi-colon (`;`), or pipe (`|`)
-- [ ] Error handling for quotation marks as separators
+- [x] Error handling for quotation marks as separators
 - [ ] Error handling in general
 
 ### RFC 4180 Compliance

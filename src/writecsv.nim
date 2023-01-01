@@ -15,6 +15,12 @@ proc setChars(self: var CsvWriter; separator, quote: char) =
   self.separator = separator
   self.quote = '\"'
 
+  if self.separator in @['"', '\"']:
+    raise newException(
+      ValueError,
+      "Separator character cannot be a quotation mark."
+    )
+
 proc escapeHeaders(self: var CsvWriter) =
   #[ Headers don't need to be set.
      Can be part of the `rows` sequence and still work ]#
