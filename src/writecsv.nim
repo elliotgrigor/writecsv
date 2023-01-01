@@ -4,11 +4,14 @@ type
   CsvWriter* = object
     headers*: seq[string]
     rows*: seq[seq[string]]
-    separator: char
-    quote: char
+    separator, quote: char
 
 template quoteWrap(field: string): string =
   self.quote & field & self.quote
+
+proc setChars(self: var CsvWriter; separator, quote: char) =
+  self.separator = separator
+  self.quote = '\"'
 
 proc escapeHeaders(self: var CsvWriter) =
   #[ Headers don't need to be set.
@@ -36,8 +39,7 @@ proc getLineEnding(self: CsvWriter): string =
 proc writeRows*(self: var CsvWriter,
                 filePath: string, separator: char = ',') =
   #[ Generate the full file contents in a string, then dump to file ]#
-  self.separator = separator
-  self.quote  = '\"'
+  self.setChars(separator, quote = '\"')
 
   var fileContent: string
 
