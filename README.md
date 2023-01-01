@@ -11,8 +11,7 @@ A quick & (very) dirty CSV writer for Nim designed to complement the standard li
 #   CsvWriter* = object
 #     headers*: seq[string]
 #     rows*: seq[seq[string]]
-#     separator: char
-#     quote: char
+#     separator, quote: char
 
 import std/parsecsv
 import writecsv
