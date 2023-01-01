@@ -28,7 +28,7 @@ proc escapeHeaders(self: var CsvWriter) =
     if header.contains(self.separator):
       self.headers[i] = quoteWrap(header)
 
-proc escapeRow(self: CsvWriter, row: seq[string]): seq[string] =
+proc escapeRow(self: CsvWriter, row: CsvRow): CsvRow =
   result = row
 
   for i, val in result:
