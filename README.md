@@ -8,9 +8,11 @@ A quick & (very) dirty CSV writer for Nim designed to complement the standard li
 
 ```nim
 # type
+#   CsvRow = seq[string]
+#
 #   CsvWriter* = object
-#     headers*: seq[string]
-#     rows*: seq[seq[string]]
+#     headers*: CsvRow
+#     rows*: seq[CsvRow]
 #     separator, quote: char
 
 import std/parsecsv
