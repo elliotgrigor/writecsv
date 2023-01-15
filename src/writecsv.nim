@@ -27,12 +27,18 @@ proc escapeHeaders(self: var CsvWriter) =
   for i, header in self.headers:
     if header.contains(self.separator):
       self.headers[i] = quoteWrap(header)
+    # escape headers with escaped quotes ("")
+    elif header.contains(self.quote & self.quote):
+      self.headers[i] = quoteWrap(header)
 
 proc escapeRow(self: CsvWriter, row: CsvRow): CsvRow =
   result = row
 
   for i, val in result:
     if val.contains(self.separator):
+      result[i] = quoteWrap(val)
+    # escape fields with escaped quotes ("")
+    elif val.contains(self.quote & self.quote):
       result[i] = quoteWrap(val)
 
 proc getLineEnding(self: CsvWriter): string =
@@ -60,14 +66,27 @@ proc writeRows*(self: var CsvWriter,
     fileContent &= strutils.join(self.headers, $self.separator)
     fileContent &= self.getLineEnding()
 
-  for i, row in self.rows:
+  for row_num, row in self.rows:
+    # TODO: Could be split into separate proc
+    for col_num, field in row:
+      if (field.contains(self.quote)):
+        var mut_row = row
+
+        for ch in mut_row[col_num]:
+          if ch == self.quote:
+            # replace each quote with two
+            mut_row[col_num] = strutils.replace(field, $self.quote, "\"\"")
+
+        self.rows[row_num] = mut_row
+    #[ =================================== ]#
+
     # Same process as escapeHeaders, but for rows instead
-    let escapedRow = self.escapeRow(row)
+    let escapedRow = self.escapeRow(self.rows[row_num])
     # Append data row string
     fileContent &= strutils.join(escapedRow, $self.separator)
 
     # Avoid trailing newline
-    if i < self.rows.high:
+    if row_num < self.rows.high:
       # Append newline (based on OS) after data row
       fileContent &= self.getLineEnding()
 

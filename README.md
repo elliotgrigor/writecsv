@@ -37,6 +37,16 @@ block:
 
 ## Changelog
 
+### 2023-01-15
+#### Feature
+
+- Added support for escaped quotation marks ("") within quoted values.
+
+### 2023-01-01
+#### Fixed
+
+- Disallowed quotation marks being used as separators.
+
 ### 2022-12-28
 #### Removed
 
@@ -48,7 +58,6 @@ Custom quote characters are not supported. Quotation marks (`"`) only.
 
 ## Known Issues
 
-- Quotation marks cannot be used within values in the input data. (Planned support)
 - Newlines cannot be be used within values in the input data. (Planned support)
 - Using quotation marks as separators breaks everything. (Duh!)
 
@@ -65,4 +74,5 @@ Custom quote characters are not supported. Quotation marks (`"`) only.
 ### RFC 4180 Compliance
 
 - [ ] Line breaks within values ([Section 2, def. 6](https://www.rfc-editor.org/rfc/rfc4180#section-2))
-- [ ] Quotation marks within values ([Section 2, def. 7](https://www.rfc-editor.org/rfc/rfc4180#section-2))
+- [x] Quotation marks within values ([Section 2, def. 7](https://www.rfc-editor.org/rfc/rfc4180#section-2))
+
