@@ -40,7 +40,7 @@ block:
 ### 2023-01-15
 #### Feature
 
-- Added support for escaped quotation marks ("") within quoted values.
+- Added support for escaped quotation marks (`""`) within quoted values.
 
 ### 2023-01-01
 #### Fixed
@@ -59,7 +59,6 @@ Custom quote characters are not supported. Quotation marks (`"`) only.
 ## Known Issues
 
 - Newlines cannot be be used within values in the input data. (Planned support)
-- Using quotation marks as separators breaks everything. (Duh!)
 
 ## Todo
 
