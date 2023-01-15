@@ -2,7 +2,7 @@
 
 A quick & (very) dirty CSV writer for Nim designed to complement the standard library's parsecsv module.
 
-**Warning**: Definitely buggy. Use at your own risk.
+**Warning**: Experimental. Use at your own risk.
 
 ## Usage example
 
